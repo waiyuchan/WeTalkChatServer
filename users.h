@@ -31,6 +31,8 @@ public:
     void push(User user);
     void pop();
     int length();
+    void show_users();
+    Node *get_users_head();
 };
 
 Users::Users(/* args */)
