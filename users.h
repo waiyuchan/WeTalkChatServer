@@ -1,13 +1,16 @@
-#ifdef USERS_H_
-#define USERS_H_
+#ifndef USERS_H
+#define USERS_H
+#include <string>
+
+using std::string;
 
 class User
 {
 private:
 public:
-    std::string id;
-    std::string name;
-    std::string sock_info;
+    string id;
+    string name;
+    int sockfd;
 };
 
 struct Node
@@ -31,16 +34,9 @@ public:
     void push(User user);
     void pop();
     int length();
+    int select_sockfd();
     void show_users();
-    Node *get_users_head();
+    Node *&get_users_head();
 };
 
-Users::Users(/* args */)
-{
-}
-
-Users::~Users()
-{
-}
-
-#endif
+#endif  // USERS_H
