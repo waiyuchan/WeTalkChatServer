@@ -40,9 +40,10 @@ bool ChatServer::AcceptUserClient()
         return false;
     int client_sockfd = accept(sockfd, NULL, NULL);
     if (client_sockfd == -1)
-    {
         return false;
-    }
-
+    User user;
+    
+    // 接受客户端
+    ssize_t size = recv(client_sockfd, &user, sizeof(user), 0);
     return true;
 }
