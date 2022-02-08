@@ -3,6 +3,11 @@
 #include <arpa/inet.h>
 #include "users.h"
 #include <unistd.h>
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::to_string;
 
 class ChatServer
 {
@@ -22,11 +27,12 @@ private:
     int sockfd; // sockfd 就代表本次socket连接的文件句柄，后续的通信我们只需要像对待普通文件一样往这个文件句柄中读写数据即可实现socket通信的过程。
     Users *user_list;
     void Init();
+
 public:
     ChatServer(/* args */);
     ~ChatServer();
 
-    bool AcceptUserClient();
+    bool AcceptUserFromClient();
 };
 
-#endif  // CHAT_SERVER_H
+#endif // CHAT_SERVER_H

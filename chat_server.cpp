@@ -1,5 +1,4 @@
 #include "chat_server.h"
-#
 
 ChatServer::ChatServer(/* args */)
 {
@@ -25,25 +24,39 @@ void ChatServer::Init()
     int ret = bind(sockfd, (struct sockaddr *)&address, sizeof(address));
     if (ret == -1)
         close(sockfd); // 关闭socket句柄
-        sockfd = -1;   // 重设socket句柄为初始监听状态：-1
-        return;        // 结束
+    sockfd = -1;       // 重设socket句柄为初始监听状态：-1
+    return;            // 结束
     ret = listen(sockfd, 1024);
     if (ret == -1)
         close(sockfd);
-        sockfd = -1;
-        return;
+    sockfd = -1;
+    return;
 }
 
-bool ChatServer::AcceptUserClient()
+/* 接收客户端信息 */
+bool ChatServer::AcceptUserFromClient()
 {
     if (sockfd == -1)
         return false;
+
     int client_sockfd = accept(sockfd, NULL, NULL);
     if (client_sockfd == -1)
         return false;
+
     User user;
-    
-    // 接受客户端
+
+    // 基于客户端状态的判断逻辑
     ssize_t size = recv(client_sockfd, &user, sizeof(user), 0);
+    if (size == -1 || size == 0)
+    {
+        close(client_sockfd);
+        return false;
+    }
+
+    string user_name = "test_user_" + to_string(user_list->length());
+    User user(to_string(0), user_name, client_sockfd);
+    user_list->push(user);
+    user_list->show_users();
+
     return true;
 }
